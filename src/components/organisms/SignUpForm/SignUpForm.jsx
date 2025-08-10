@@ -1,42 +1,35 @@
-import Button from "../../atoms/Button/Button";
 import FormField from "../../molecules/FormField/FormField";
 import Button from "../../atoms/Button/Button";
-import {useSignUpForm} from "./SignUpFormLogic";
+import GlobalError from "../../atoms/GlobalError/GlobalError";
 
-export default function SignUpForm(){
-    const { register , handleSubmit , errors , onSubmit} = useSignUpForm((data) => {
-        console.log("Form Submitted: " , data);
-    });
-
-    return(
-        <>
-        <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
-            <FormField
-            label = "Name"
-            type = "text"
-            placeholder = "Enter your name"
-            name = "name"
-            register = {register("name")}
-            errors= {errors}
-            />
-            <FormField
-            label = "Email"
-            type = "email"
-            placeholder = "Enter your email"
-            name = "email"
-            register = {register("email")}
-            errors= {errors}
-            />
-            <FormField
-            label = "Password"
-            type = "password"
-            placeholder = "Enter your password"
-            name = "password"
-            register = {register("password")}
-            errors= {errors}
-            />
-            <Button text="Sign Up" type="submit"/>
-        </form>
-        </>
-    )
+export default function SignUpForm({ formData, onChange, onSubmit, errors, loading, globalError }) {
+  return (
+    <form onSubmit={onSubmit} noValidate>
+      <GlobalError message={globalError} />
+      <FormField
+        label="Name"
+        value={formData.name}
+        onChange={onChange("name")}
+        error={errors.name}
+        name="name"
+      />
+      <FormField
+        label="Email"
+        type="email"
+        value={formData.email}
+        onChange={onChange("email")}
+        error={errors.email}
+        name="email"
+      />
+      <FormField
+        label="Password"
+        type="password"
+        value={formData.password}
+        onChange={onChange("password")}
+        error={errors.password}
+        name="password"
+      />
+      <Button text={loading ? "Signing Up..." : "Sign Up"} type="submit" disabled={loading} />
+    </form>
+  );
 }

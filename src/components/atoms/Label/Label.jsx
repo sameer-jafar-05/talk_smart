@@ -1,12 +1,7 @@
-function Label( {text , htmlFor}){
-    return (
-        <>
-        <Label classname="label" htmlFor={htmlFor}>
-        {text}
-        </Label>
-        </>
-    );
-
-
+export default function Label({ text, htmlFor }) {
+  return (
+    <label htmlFor={htmlFor} className="label">
+      {text}
+    </label>
+  );
 }
-export default Label;

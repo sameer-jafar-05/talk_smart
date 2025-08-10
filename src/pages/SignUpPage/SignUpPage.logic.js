@@ -5,7 +5,7 @@ export function useSignUpPage() {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
 
-  // This will be passed into SignUpForm as the onSubmit handler
+  // Passed into SignUpForm as the onSubmit handler
   const handleSignUp = async (formData) => {
     try {
       setLoading(true);
@@ -15,17 +15,18 @@ export function useSignUpPage() {
       const response = await fetch("https://api.example.com/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error("Signup failed. Please try again.");
+        const errText = await response.text();
+        throw new Error(errText || "Signup failed. Please try again.");
       }
 
       const data = await response.json();
       console.log("Signup success:", data);
 
-      // Redirect to login page or dashboard
+      // Redirect after success
       window.location.href = "/login";
 
     } catch (error) {
